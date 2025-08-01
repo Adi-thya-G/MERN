@@ -23,6 +23,7 @@ useEffect(() => {
   const initAuth = async () => {
     try {
       const res = await getCurrentUser()
+      console.log("reslmlzmmlmm")
       dispatch(authLogin(res.data.data))
     } catch {
       try {
