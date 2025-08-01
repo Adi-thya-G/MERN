@@ -48,6 +48,7 @@ io.on('connection', async(socket) => {
 
     // Emit to sender
     io.to(socket.id).emit(receiverMessage?.receiver.toString(), senderMessage);
+    io.to(socket.id).emit(`new_message_sender`,senderMessage?.user)
 
     // Emit to receiver if online
     const receiver_socket_id = await client.get(`user:${receiverMessage?.receiver.toString()}:socket_id`);
@@ -58,6 +59,7 @@ io.on('connection', async(socket) => {
       if(curentRouter=='/api/v1/chats')
       {
         io.to(receiver_socket_id).emit(receiverMessage?.sender.toString(), receiverMessage);
+        io.to(receiver_socket_id).emit('new_message_receiver',receiverMessage.user)
       }
       else{
         io.to(receiver_socket_id).emit('message_Notification',receiverMessage)
