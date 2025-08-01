@@ -14,7 +14,7 @@ dotenv.config();
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "https://mern-six-psi.vercel.app/",
+    origin: process.env.CORS_ORIGIN,
     credentials: true,
   }
 });
