@@ -1,16 +1,19 @@
-import multer from 'multer'
+import multer from 'multer';
 import { fileURLToPath } from 'url';
 import path from 'path';
-const __dirname = path.dirname(__filename);
-const storage=multer.diskStorage({
-  destination:function (req,file,cb)
-  {
-    cb(null,path.join(__dirname, 'public', 'temp'))
-  },
-  filename:function(req,file,cb)
-  {
-    cb(null,file.originalname)
-  }
-})
 
-export const upload=multer({storage})
+// Fix: define __filename and __dirname for ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Set up multer storage
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, 'public', 'temp')); // ✅ uploads go to backend/public/temp
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // optionally use unique naming
+  }
+});
+
+export const upload = multer({ storage });
