@@ -78,11 +78,18 @@ function Home() {
           <button onClick={()=>{
             navigate("/profile")
 
-          }}><span className='w-8 h-8 p-1 rounded-full flex justify-center border-2 border-gray-500 bg-slate-50'>< FaRegUser color='black' /></span></button>
+          }}>
+          <span className='w-8 h-8 p-1 rounded-full flex justify-center border-2 border-gray-500 bg-slate-50'>< FaRegUser color='black' /></span></button>
          
-          <span className='w-8 h-8 p-1 rounded-full flex justify-center border-2 border-gray-500'><  HiOutlineChat className= ' text-2 text-gray-900'/></span>
-                  
-                    <span className='w-8 h-8 p-1 rounded-full flex justify-center border-2 border-gray-500'> <RiHome4Line className= ' text-xl text-gray-900'/></span>
+          <button
+          onClick={(e)=>navigate("/chat")}
+          ><span className='w-8 h-8 p-1 rounded-full flex justify-center border-2 border-gray-500'><  HiOutlineChat className= ' text-2 text-gray-900'/></span>
+                  </button>
+                    
+<button onClick={(e)=>navigate("/")}>
+
+  <span className='w-8 h-8 p-1 rounded-full flex justify-center border-2 border-gray-500'> <RiHome4Line className= ' text-xl text-gray-900'/></span>
+</button>
                      <span className='w-8 h-8 p-1 rounded-full flex justify-center border-2 border-gray-500'>< IoSettingsOutline className= ' text-xl text-gray-900'/></span>
                   
          </div>

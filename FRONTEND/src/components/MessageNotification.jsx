@@ -25,10 +25,10 @@ function MessageNotification({notification,setnotification,timeout}) {
     className={`${
       'animate-enter' 
     } max-w-md w-full bg-white shadow-lg  fixed z-50 right-2 top-2 rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
-   onClick={()=>{
+  >
+    <div className="flex-1 w-0 p-4"  onClick={()=>{
     helper()
     navigate(`chat/${notification?.sender}`)}}>
-    <div className="flex-1 w-0 p-4">
       <div className="flex items-start">
         <div className="flex-shrink-0 pt-0.5">
           <img
