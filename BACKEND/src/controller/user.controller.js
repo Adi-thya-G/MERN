@@ -78,10 +78,12 @@ const login=asyncHandler(async(req,res,next)=>{
    
     const option={
       httpOnly: true,
-    secure: false,
-    sameSite: 'Lax',
+    secure: true,
+     sameSite: 'None',
     path: '/',
     }
+   
+ 
    
   return res.status(200)
   .cookie("accessToken",accessToken,option)
