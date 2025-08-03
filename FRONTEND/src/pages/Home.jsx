@@ -10,26 +10,29 @@ import { setSocketId } from '../store/authSlice.js';
 import { useNavigate } from "react-router";
 import { home } from '../lib/api.js';
 import socket from '../socket'
+import Loading from '../components/Loading.jsx';
 
 
 function Home() {
   const [response,setresponse]=useState([])
+  const [loading,setLoading]=useState(false)
   const selector=useSelector((state)=>state.auth.socket_id)
   const navigate=useNavigate()
   console.log(selector)
 
  useEffect(()=>{
-  home().then((res)=>{setresponse(res?.data?.data)
-    console.log(res)
+  setLoading(true)
+  home().then((res)=>{
+    
+    setresponse(res?.data?.data)
+    setLoading(false)
   })
  },[])
 
-
-
-
-
- const dic=[{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}]
-  return (
+  if(loading)
+       return <Loading/>
+  else
+     return (
    
    <div className='w-full h-screen flex flex-col md:justify-center '>
      <div className='w-full h-full  bg-white  md:w-[600px] lg:w-[900px] md:mx-auto' >
@@ -53,7 +56,7 @@ function Home() {
            
           </div>
           {
-            dic.map((ele)=>(<div className=' p-0.5 flex-shrink-0  flex justify-center bg-green-400 rounded-full'>
+            [{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}].map((ele)=>(<div className=' p-0.5 flex-shrink-0  flex justify-center bg-green-400 rounded-full'>
            <div className=' p-0.5 flex justify-center bg-white rounded-full'>
              <div>
               <img src="https://images.unsplash.com/photo-1526779259212-939e64788e3c?q=80&w=1174&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D " className='rounded-full w-[60px] h-[60px]' alt="" />
