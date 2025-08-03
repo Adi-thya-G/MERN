@@ -16,16 +16,21 @@ import Message from './pages/Message.jsx'
 import MessageHome from './pages/MessageHome.jsx'
 import SignUp from './pages/SignUp.jsx'
 import SetProfile from './components/SetProfile.jsx'
+import ProtectedRouter from './components/ProtectedRouter.jsx'
 const router=createBrowserRouter([{
   path:"/",
   element:<App/>,
   children:[{
     path:"",
-    element:<Home/>,
+    element:<ProtectedRouter>
+      <Home/>
+    </ProtectedRouter>,
    
   } ,{
       path:`/viewprofile/:id`,
-      element:<ViewProfile/>
+      element:<ProtectedRouter>
+        <ViewProfile/>
+        </ProtectedRouter>
     }
   ,{
     path:"login",
@@ -38,7 +43,9 @@ const router=createBrowserRouter([{
     element:<Profile/>
   },{
     path:"chat",
-    element:<Chat/>,
+    element:<ProtectedRouter>
+      <Chat/>
+    </ProtectedRouter>,
     children:[
       {
         path:"",
@@ -51,7 +58,9 @@ const router=createBrowserRouter([{
     ]
   },{
     path:"postupload",
-    element:<PostUpload/>
+    element:<ProtectedRouter>
+      <PostUpload/>
+    </ProtectedRouter>
   },
 {
   path:"signup",
@@ -59,7 +68,9 @@ const router=createBrowserRouter([{
 },
 {
   path:"setprofile",
-  element:<SetProfile/>
+  element:<ProtectedRouter>
+    <SetProfile/>
+  </ProtectedRouter>
 }
 ]
 }])

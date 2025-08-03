@@ -116,10 +116,12 @@ const logout=asyncHandler(async(req,res,next)=>{
   {
     throw new ApiErrors(401,"unauthorized acction");
   }
-  const options={
-    httpOnly:true, // it only modifief by server
-    secure:true,
-  }
+const options={
+      httpOnly: true,
+    secure: true,
+     sameSite: 'None',
+    path: '/',
+    }
   return res.status(200)
   .clearCookie("accessToken",options)
   .clearCookie("refreshToken",options)
@@ -218,8 +220,8 @@ const createAccessToken=asyncHandler(async(req,res,next)=>{
   const {newAccessToken,newRefreshToken}=await generatetoken(user?._id)
  const option={
       httpOnly: true,
-    secure: false,
-    sameSite: 'Lax',
+    secure: true,
+     sameSite: 'None',
     path: '/',
     }
     
