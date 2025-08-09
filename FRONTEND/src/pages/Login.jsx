@@ -90,9 +90,9 @@ function Login() {
                 }}
               />
               <h4 className="flex justify-end">
-                <a href="http://google.com" className="text-sky-400">
-                  Forget password
-                </a>
+                <Link to={"/forget-password-form"} className="text-sky-300 hover:text-sky-500"> Forget password</Link>
+                 
+              
               </h4>
             </div>
             <div className="w-full flex flex-col gap-6 justify-center">

@@ -5,7 +5,7 @@ import './App.css'
 import {getCurrentUser,newAccessToken} from './lib/api'
 import socket from './socket'
 import { axiosInstance } from './lib/axios'
-import { Outlet } from 'react-router'
+import { Outlet, useParams } from 'react-router'
 import { useDispatch } from 'react-redux'
 import { authLogin,setSocketId } from './store/authSlice'
 import { useNavigate } from 'react-router'
@@ -18,12 +18,11 @@ function App() {
    const dispatch=useDispatch()
    const [loading, setLoading] = useState(true)
    const [notification,setnotification]=useState(null)
-
+  const id=window.location.pathname
 useEffect(() => {
   const initAuth = async () => {
     try {
       const res = await getCurrentUser()
-      console.log("reslmlzmmlmm")
       dispatch(authLogin(res.data.data))
     } catch {
       try {
@@ -31,8 +30,7 @@ useEffect(() => {
         const res = await getCurrentUser()
         dispatch(authLogin(res.data.data))
       } catch {
-       
-        navigate('/login')
+        navigate(id)
       }
     } finally {
       setLoading(false)
@@ -63,7 +61,8 @@ socket.on('message_Notification',notificationHelper)
 return ()=>socket.off('message_Notification',notificationHelper)
 
 },[])
-if (loading) return <div className="w-full h-full flex justify-center items-center"> <Flex align="center" gap="middle">
+if (loading) return <div className="w-full h-full flex justify-center items-center"> 
+<Flex align="center" gap="middle">
                     <Spin
                       indicator={
                         <LoadingOutlined

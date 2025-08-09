@@ -10,6 +10,8 @@ import  Post from '../model/posts.models.js'
 import nodemailer from 'nodemailer'
 import { Follower } from "../model/followers.models.js";
 import {Like} from '../model/likes.models.js'
+import client from '../client.js'
+import { json } from "express";
 const generatetoken = async (id) => {
         const user = await User.findById(id).select("-password");
         const refreshToken = await user.generateRefreshToken();
@@ -151,16 +153,17 @@ return res.status(200)
 const createResetToken=asyncHandler(async(req,res,next)=>{
  
   const {email}=req.body;
-  
+  console.log(email)
   if(!email)
     throw new ApiErrors(404,"unauthorized accesss")
   const user=await User.findOne({email}).select("-password -refreshToken")
+  console.log(user)
   if(!user)
     throw new ApiErrors(401,"unauthorized access")
   const resetToken=await user.generateResetToken()
   user.resetToken=resetToken
   await user.save({validateBeforeSave:false})
-  const url=`http://localhost:5700/forget-password/${resetToken}`
+  const url=`${process.env.CORS_ORIGIN}/forget-password/${resetToken}`
 
   const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
@@ -186,6 +189,7 @@ const info = await transporter.sendMail({
 
 const verifyResetToken1=asyncHandler(async(req,res,next)=>{
   const user=req.user
+  
   return res.json(new ApiResponse(200,[],"valid token "))
 })
 
@@ -236,7 +240,13 @@ const userHome = asyncHandler(async (req, res, next) => {
   if (!user) {
     throw new ApiErrors(400, "Invalid user");
   }
-
+  const user_client_data=await client.get(`user:${user._id}:home`)
+ if (user_client_data)
+ {
+    return res
+    .status(200)
+    .json(new ApiResponse(200, JSON.parse(user_client_data), "Feed data fetched"));
+ }
   // 🔍 Step 1: Get following list
   const followingDoc = await Follower.findOne({ followers: user._id }).lean();
   const following = Array.isArray(followingDoc?.following) ? followingDoc.following : [];
@@ -447,7 +457,8 @@ const userHome = asyncHandler(async (req, res, next) => {
     // -------------------- SORT ALL POSTS --------------------
     { $sort: { createdAt: -1 } }
   ]);
-
+  client.set(`user:${user._id}:home`,JSON.stringify(home))
+  client.expire(`user:${user._id}:home`,100)
   return res
     .status(200)
     .json(new ApiResponse(200, home, "Feed data fetched"));

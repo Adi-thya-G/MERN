@@ -1,7 +1,56 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoKeyOutline } from "react-icons/io5";
 import { FaArrowLeft } from "react-icons/fa6";
+import { useNavigate, useParams } from 'react-router';
+import { verifyRestToken,changePassword } from '../lib/api';
+import { Flex, Spin } from 'antd';
+import Success from '../components/Success';
 function Forget() {
+  const [password,setpassword]=useState("")
+  const [confirmPassword,setConfirmPassword]=useState("")
+  const [loadign,setloading]=useState(false)
+  const [success,setsuccess]=useState(false)
+  const {user}=useParams()
+ 
+  const navigate=useNavigate()
+
+  const helper=async()=>{
+    try {
+      setloading(true)
+      let res=await verifyRestToken(user)
+      setloading(false)
+      setsuccess(true)
+    } catch (error) {
+      navigate("/link-expired")
+    }
+  }
+
+  useEffect(()=>{
+     helper() 
+  },[])
+
+  const submit=async(e)=>{
+    try {
+      e.preventDefault()
+       setloading(true)
+      let res=await changePassword(user,{password:password,confirmPassword:confirmPassword})
+      setloading(false)
+      setsuccess(true)
+    } catch (error) {
+      navigate("/link-expired")
+    }
+  }
+  if(loadign)
+    return 
+    <Flex align="center" gap="middle">
+    <Spin size="small" />
+    <Spin />
+    <Spin size="large" />
+  </Flex>
+
+  if(success)
+    <Success message={"password change successfuly"}/>
+
   return (
     <main className='w-full h-screen flex justify-center items-center p-1 '>
       <div className='w-[400px]    '>
@@ -13,17 +62,17 @@ function Forget() {
           <h3 className='flex justify-center text-slate-900 text-[27px] font-serif'>Set new password</h3>
           <p className='text-[14px] flex justify-center font-sans  text-slate-700 sm:text-[13px] md:text-sm p-3 max-w-xs text-center mx-auto'>Your new password must be different from your previously used password.</p>
           </div>
-          <form className='flex flex-col p-3 gap-6'>
+          <form className='flex flex-col p-3 gap-6' onSubmit={submit}>
             <div className='flex flex-col gap-3'>
               <label htmlFor="" className='text-[15px] text-slate-800 font-semibold '>Password</label>
-             <input type="password" placeholder='Enter password' className=' outline-2 outline p-2 rounded-md outline-gray-600 placeholder:text-[16px]' />
+             <input type="password" placeholder='Enter password' className=' outline-2 outline p-2 rounded-md outline-gray-600 placeholder:text-[16px]' value={password } onChange={(e)=>setpassword(e.target.value)}/>
           </div>
           <div className='flex flex-col gap-3'>
               <label htmlFor="" className='text-[15px] text-slate-800 font-semibold'>Confirm password</label>
-             <input type="password" placeholder='Enter confirm password' className=' outline-2 outline p-2 rounded-md outline-gray-600 placeholder:text-[16px]' />
+             <input type="password" placeholder='Enter confirm password' value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)} className=' outline-2 outline p-2 rounded-md outline-gray-600 placeholder:text-[16px]' />
           </div>
           <div className='w-full flex justify-center p-2'>
-            <button className='text-white bg-purple-500 w-5/6 p-3 rounded-md'>Reset password</button>
+            <button className='text-white bg-purple-500 w-5/6 p-3 rounded-md' onClick={(e)=>submit}>Reset password</button>
           </div>
           </form>
           <div className='w-full flex justify-center py-3'>

@@ -9,7 +9,7 @@ import client from './client.js';
 import { newComments } from './socket/comments.socket.js';
 import {addlikes,removelikes} from './socket/likes.socket.js'
 import {Chat} from './socket/chat.socket.js'
-dotenv.config();
+ dotenv.config();
 
 const server = createServer(app);
 const io = new Server(server, {
@@ -21,7 +21,7 @@ const io = new Server(server, {
 
 io.use(socketVerify)
 io.on('connection', async(socket) => {
-  client.set(`user:${socket.user._id}:socket_id`,socket.id)
+ await client.set(`user:${socket.user._id}:socket_id`,socket.id)
   io.emit(`${socket.user._id}_isOnline`,{isOnline:true})
 
 

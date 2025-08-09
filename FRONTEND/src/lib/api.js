@@ -113,3 +113,15 @@ export const searchFunction=async(search)=>{
     }
   })
 }
+
+export const resetToken=async(form)=>{
+  return await axiosInstance.post('users/resetToken',form)
+}
+
+export const verifyRestToken=async(token)=>{
+  return await axiosInstance.get(`users/verify-reset-token/${token}`)
+}
+
+export const changePassword=async(id,form)=>{
+  return await axiosInstance.post(`users/changepassword/${id}`,form)
+}

@@ -17,6 +17,8 @@ import MessageHome from './pages/MessageHome.jsx'
 import SignUp from './pages/SignUp.jsx'
 import SetProfile from './components/SetProfile.jsx'
 import ProtectedRouter from './components/ProtectedRouter.jsx'
+import ForgetEmail from './pages/ForgetEmail.jsx'
+import ExpiredLink from './components/ExpiredLink.jsx'
 const router=createBrowserRouter([{
   path:"/",
   element:<App/>,
@@ -65,6 +67,14 @@ const router=createBrowserRouter([{
 {
   path:"signup",
   element:<SignUp/>
+},
+{
+ path:"forget-password-form",
+ element:<ForgetEmail/>
+},
+{
+path:"link-expired",
+element:<ExpiredLink/>
 },
 {
   path:"setprofile",
