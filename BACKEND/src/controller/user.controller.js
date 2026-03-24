@@ -80,9 +80,8 @@ const login=asyncHandler(async(req,res,next)=>{
    
     const option={
       httpOnly: true,
-    secure: true,
-     sameSite: 'None',
-    path: '/',
+  secure: true,        // REQUIRED on HTTPS (Render uses HTTPS)
+  sameSite: "None"
     }
    
  
