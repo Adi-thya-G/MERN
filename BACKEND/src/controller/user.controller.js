@@ -79,10 +79,9 @@ const login=asyncHandler(async(req,res,next)=>{
   const {refreshToken,accessToken}=await generatetoken(user._id)
    
     const option={
-      httpOnly: true,
-  secure: true,        // REQUIRED on HTTPS (Render uses HTTPS)
-  sameSite: "None",
-    path: '/',
+    httpOnly: true,
+  secure: true,        // required for HTTPS (Render)
+  sameSite: "None", 
     }
    
  
